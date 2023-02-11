@@ -19,8 +19,8 @@ export default function Home() {
   };
 
   // This works in both development and production builds
-  const callRust = () => {
-    invoke('test_call')
+  const callRust = (nested: boolean) => {
+    invoke(nested ? 'hello_nested' : 'test_call')
       .then((res) => setRustRes(res as string))
       .catch((e) => {
         console.error(e);
@@ -37,7 +37,12 @@ export default function Home() {
       <br />
       <hr />
       <br />
-      <button onClick={callRust}>Test Rust API Call</button>
+      <button onClick={() => callRust(false)}>Test Rust API Call</button>
+      <div>Response: {rustRes}</div>
+      <br />
+      <hr />
+      <br />
+      <button onClick={() => callRust(true)}>Test Nested Rust API Call</button>
       <div>Response: {rustRes}</div>
     </main>
   );
