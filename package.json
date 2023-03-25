@@ -11,6 +11,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/material": "^5.11.14",
     "@next/font": "13.1.6",
     "@tauri-apps/api": "^1.2.0",
     "@types/node": "18.13.0",
