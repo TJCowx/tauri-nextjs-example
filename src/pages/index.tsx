@@ -1,6 +1,8 @@
-import { Paper, styled } from '@mui/material';
+import { Button, Paper, styled } from '@mui/material';
 import { invoke } from '@tauri-apps/api/tauri';
+import RHFTextField from 'components/Fields/RHF/RHFTextField';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const Root = styled('div')(() => ({
   height: '100%',
@@ -16,10 +18,44 @@ const StyledPaper = styled(Paper)(() => ({
   padding: '24px',
 }));
 
+const StyledForm = styled('form')(() => ({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  '& button.connect': { alignSelf: 'flex-end' },
+}));
+
+type FormState = {
+  connectionString: string;
+};
+
 export default function Connect() {
+  const { control, handleSubmit } = useForm<FormState>({
+    defaultValues: {
+      connectionString: '',
+    },
+  });
+
+  const onSubmit = (data: FormState) => {
+    // TODO:
+  };
+
   return (
     <Root style={{ paddingTop: '16px' }}>
-      <StyledPaper>Hello World</StyledPaper>
+      <StyledPaper>
+        <StyledForm>
+          <RHFTextField
+            fieldName="connectionString"
+            label="Connection"
+            control={control}
+            isRequired
+          />
+          <Button className="connect" type="submit" variant="contained">
+            Connect
+          </Button>
+        </StyledForm>
+      </StyledPaper>
     </Root>
   );
 }
