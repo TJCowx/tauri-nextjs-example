@@ -38,13 +38,17 @@ export default function Connect() {
   });
 
   const onSubmit = (data: FormState) => {
-    // TODO:
+    invoke('connect_db', { conn_str: data.connectionString })
+      .then(() => console.log('TODO: Redirect'))
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   return (
     <Root style={{ paddingTop: '16px' }}>
       <StyledPaper>
-        <StyledForm>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <RHFTextField
             fieldName="connectionString"
             label="Connection"
