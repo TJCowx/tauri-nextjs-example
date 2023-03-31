@@ -1,7 +1,7 @@
 import { Button, Paper, styled } from '@mui/material';
 import { invoke } from '@tauri-apps/api/tauri';
 import RHFTextField from 'components/Fields/RHF/RHFTextField';
-import { useState } from 'react';
+import router from 'next/router';
 import { useForm } from 'react-hook-form';
 
 const Root = styled('div')(() => ({
@@ -39,7 +39,7 @@ export default function Connect() {
 
   const onSubmit = (data: FormState) => {
     invoke('connect_db', { conn_str: data.connectionString })
-      .then(() => console.log('TODO: Redirect'))
+      .then(() => router.push('/home'))
       .catch((e) => {
         console.error(e);
       });
