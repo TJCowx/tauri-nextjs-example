@@ -3,15 +3,8 @@ import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
 import NavDrawer from './NavDrawer';
 
-const ContentContainer = styled('main')(() => ({
-  marginLeft: '48px',
-  overflow: 'auto',
-  '&:not(.no-padding)': {
-    padding: '24px 16px 48px',
-  },
-  '&::-webkit-scrollbar': {
-    width: '16px',
-  },
+const Root = styled('div')(() => ({
+  '&::-webkit-scrollbar': { width: '16px' },
   '&::-webkit-scrollbar-thumb': {
     backgroundColor: '#ccc',
     borderRadius: '12px',
@@ -20,8 +13,14 @@ const ContentContainer = styled('main')(() => ({
     minWidth: '16px',
     minHeigh: '16px',
   },
-  '&::-webkit-scrollbar-track': {
-    backgroundColor: 'transparent',
+  '&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
+}));
+
+const ContentContainer = styled('main')(() => ({
+  marginLeft: '48px',
+  overflow: 'auto',
+  '&:not(.no-padding)': {
+    padding: '24px 16px 48px',
   },
 }));
 
@@ -33,7 +32,7 @@ const Layout: FC<PropsWithChildren<Props>> = ({
   children,
   disablePadding = false,
 }) => (
-  <div>
+  <Root>
     <NavDrawer />
     <ContentContainer
       className={clsx({
@@ -43,7 +42,7 @@ const Layout: FC<PropsWithChildren<Props>> = ({
     >
       {children}
     </ContentContainer>
-  </div>
+  </Root>
 );
 
 Layout.defaultProps = {
