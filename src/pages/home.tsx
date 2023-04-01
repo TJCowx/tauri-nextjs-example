@@ -5,7 +5,7 @@ import NextLink from 'next/link';
 import { FC } from 'react';
 
 const Home: FC = () => (
-  <Layout>
+  <Layout disablePadding>
     <List>
       <NextLink className="reset" href="/initiative">
         <ListItemButton>

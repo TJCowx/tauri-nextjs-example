@@ -67,7 +67,7 @@ const Creatures: FC = () => {
           </IconButton>
         </Link>
       </ActionContainer>
-      <Divider />
+      <Divider className="mt-16" />
       {isLoading ? (
         <List dense>
           {[...Array(10)].map((_, i) => (
