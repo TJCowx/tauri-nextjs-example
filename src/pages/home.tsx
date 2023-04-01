@@ -1,11 +1,12 @@
 import { List, ListItemButton } from '@mui/material';
+import Layout from 'components/Layout/Layout';
 import ListItemText from 'components/List/ListItemText';
 import NextLink from 'next/link';
 import { FC } from 'react';
 
 const Home: FC = () => {
   return (
-    <>
+    <Layout>
       <List>
         <NextLink className="reset" href="/initiative">
           <ListItemButton>
@@ -32,7 +33,7 @@ const Home: FC = () => {
           </ListItemButton>
         </NextLink>
       </List>
-    </>
+    </Layout>
   );
 };
 
