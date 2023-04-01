@@ -25,6 +25,7 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   }
 }
