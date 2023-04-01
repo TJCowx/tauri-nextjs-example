@@ -30,7 +30,7 @@ type FormState = {
   connectionString: string;
 };
 
-export default function Connect() {
+const Connect = () => {
   const { control, handleSubmit } = useForm<FormState>({
     defaultValues: {
       connectionString: '',
@@ -62,4 +62,6 @@ export default function Connect() {
       </StyledPaper>
     </Root>
   );
-}
+};
+
+export default Connect;

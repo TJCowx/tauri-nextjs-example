@@ -6,15 +6,13 @@ const ContentContainer = styled('div')(() => ({
   marginLeft: '48px',
 }));
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <div>
-      <NavDrawer />
-      <ContentContainer className="content-container">
-        {children}
-      </ContentContainer>
-    </div>
-  );
-};
+const Layout: FC<PropsWithChildren> = ({ children }) => (
+  <div>
+    <NavDrawer />
+    <ContentContainer className="content-container">
+      {children}
+    </ContentContainer>
+  </div>
+);
 
 export default Layout;
