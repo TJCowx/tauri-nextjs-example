@@ -16,6 +16,7 @@ import {
   Skeleton,
   styled,
 } from '@mui/material';
+import { invoke } from '@tauri-apps/api/tauri';
 import DebouncedInput from 'components/DebouncedInput/DebouncedInput';
 import Layout from 'components/Layout/Layout';
 import ListItemText from 'components/List/ListItemText';
@@ -39,11 +40,28 @@ const Creatures: FC = () => {
   const [filteredCreatures, setFilteredCreatures] = useState<Creature[]>([]);
   const [filterText, setFilterText] = useState('');
 
-  const loadCreatures = () => {};
+  const loadCreatures = () => {
+    setHasError(false);
+    setIsLoading(true);
+
+    invoke<Creature[]>('get_all_creatures')
+      .then((res) => {
+        setCreatures(res);
+        setFilteredCreatures(res);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setHasError(true);
+        setIsLoading(false);
+      });
+  };
 
   const openDialog = (id: string) => {};
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    loadCreatures();
+  }, []);
 
   return (
     <Layout>

@@ -1,4 +1,5 @@
 import { Alert } from '@mui/material';
+import { invoke } from '@tauri-apps/api/tauri';
 import CreatureForm from 'components/Creature/CreatureForm';
 import Layout from 'components/Layout/Layout';
 import NavBack from 'components/Links/NavBack';
@@ -65,7 +66,16 @@ const CreateCreature = () => {
   });
 
   const onSubmit = (data: Creature) => {
-    console.log(data);
+    setHasError(false);
+    invoke('add_creature', { creature: { name: data.name } })
+      .then(() => {
+        router.push('/creatures');
+      })
+      .catch((e) => {
+        // TODO: Send to log
+        console.log(e);
+        setHasError(true);
+      });
   };
 
   return (

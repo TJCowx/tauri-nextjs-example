@@ -1,33 +1,34 @@
 use crate::mongo::*;
-use futures::stream::{StreamExt, TryStreamExt};
+use futures::stream::TryStreamExt;
 use serde::{Deserialize, Serialize};
 
+// TODO: Update this to use models specific to queries
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Creature {
-    id: String,
+    id: Option<String>,
     name: String,
-    size: String,
-    creature_type: String,
-    alignment: String,
-    armour_class: i32,
-    hit_points: String,
-    hit_die: String,
-    land_speed: i32,
-    fly_speed: i32,
-    burrow_speed: i32,
-    climb_speed: i32,
-    hover_speed: i32,
-    blindsight: i32,
-    darkvision: i32,
-    tremorsense: i32,
-    truesight: i32,
-    strength: i32,
-    dexterity: i32,
-    constitution: i32,
-    intelligence: i32,
-    wisdom: i32,
-    charisma: i32,
-    prof_bonus: i32,
+    size: Option<String>,
+    creature_type: Option<String>,
+    alignment: Option<String>,
+    armour_class: Option<i32>,
+    hit_points: Option<String>,
+    hit_die: Option<String>,
+    land_speed: Option<i32>,
+    fly_speed: Option<i32>,
+    burrow_speed: Option<i32>,
+    climb_speed: Option<i32>,
+    hover_speed: Option<i32>,
+    blindsight: Option<i32>,
+    darkvision: Option<i32>,
+    tremorsense: Option<i32>,
+    truesight: Option<i32>,
+    strength: Option<i32>,
+    dexterity: Option<i32>,
+    constitution: Option<i32>,
+    intelligence: Option<i32>,
+    wisdom: Option<i32>,
+    charisma: Option<i32>,
+    prof_bonus: Option<i32>,
     // TODO: Proficiencies
     // TODO: Saving Throws
     // TODO: Immunities
@@ -37,8 +38,8 @@ pub struct Creature {
     // TODO: Languages
     // TODO: Actions
     // TODO: Ability
-    is_legendary: bool,
-    has_lair: bool,
+    is_legendary: Option<bool>,
+    has_lair: Option<bool>,
 }
 
 #[tauri::command]
@@ -76,11 +77,17 @@ pub async fn add_creature(creature: Creature) -> Result<(), String> {
         .database("5e-dm-tools")
         .collection::<Creature>("creatures");
 
+    println!("[server] Adding creature {}", creature.name);
+
+    // TODO: Check for creature of same name and conflict if there is one.
+
     // TODO: Handle this properly
     let res = collection
         .insert_one(creature, None)
         .await
         .map_err(|e| e.to_string());
+
+    println!("[server] Creature successfully added!");
 
     push_connection(client);
 
