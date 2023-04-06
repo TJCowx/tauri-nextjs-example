@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { TextField as MuiTextField } from '@mui/material';
 import clsx from 'clsx';
 import { RequireMessage } from 'constants/validationMessages';

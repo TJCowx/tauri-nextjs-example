@@ -26,6 +26,6 @@
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "off",
     "no-nested-ternary": "off",
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
   }
 }

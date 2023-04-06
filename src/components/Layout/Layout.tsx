@@ -4,16 +4,8 @@ import { FC, PropsWithChildren } from 'react';
 import NavDrawer from './NavDrawer';
 
 const Root = styled('div')(() => ({
-  '&::-webkit-scrollbar': { width: '16px' },
-  '&::-webkit-scrollbar-thumb': {
-    backgroundColor: '#ccc',
-    borderRadius: '12px',
-    border: '4px solid transparent',
-    backgroundClip: 'content-box',
-    minWidth: '16px',
-    minHeigh: '16px',
-  },
-  '&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
+  height: '100%',
+  maxHeight: '100%',
 }));
 
 const ContentContainer = styled('main')(() => ({

@@ -1,5 +1,5 @@
 type Ability = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
 };
