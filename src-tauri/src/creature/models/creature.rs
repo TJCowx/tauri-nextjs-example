@@ -1,0 +1,42 @@
+use serde::{Deserialize, Serialize};
+
+pub use crate::models::{ability::Ability, action::Action};
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Creature {
+    id: String,
+    name: String,
+    size: String,
+    creature_type: String,
+    alignment: String,
+    armour_class: i16,
+    hit_points: String,
+    hit_die: String,
+    land_speed: Option<i16>,
+    fly_speed: Option<i16>,
+    burrow_speed: Option<i16>,
+    climb_speed: Option<i16>,
+    hover_speed: Option<i16>,
+    blindsight: Option<i16>,
+    darkvision: Option<i16>,
+    tremorsense: Option<i16>,
+    truesight: Option<i16>,
+    strength: i16,
+    dexterity: i16,
+    constitution: i16,
+    intelligence: i16,
+    wisdom: i16,
+    charisma: i16,
+    prof_bonus: i16,
+    proficiencies: Vec<String>,
+    saving_throws: Vec<String>,
+    immunities: Vec<String>,
+    cond_immunities: Vec<String>,
+    resistances: Vec<String>,
+    weaknesses: Vec<String>,
+    languages: Vec<String>,
+    actions: Vec<Action>,
+    abilities: Vec<Ability>,
+    is_legendary: bool,
+    has_lair: bool,
+}
