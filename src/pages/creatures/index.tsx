@@ -33,12 +33,19 @@ const ActionContainer = styled('div')(() => ({
   },
 }));
 
+const StyledAlert = styled(Alert)(() => ({
+  marginBottom: '16px',
+}));
+
 const Creatures: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [creatures, setCreatures] = useState<Creature[]>([]);
   const [filteredCreatures, setFilteredCreatures] = useState<Creature[]>([]);
   const [filterText, setFilterText] = useState('');
+  const [deleteCreatureActionId, setDeleteCreatureActionId] = useState<
+    string | null
+  >(null);
 
   const loadCreatures = () => {
     setHasError(false);
@@ -46,6 +53,7 @@ const Creatures: FC = () => {
 
     invoke<Creature[]>('get_all_creatures')
       .then((res) => {
+        console.log(res);
         setCreatures(res);
         setFilteredCreatures(res);
         setIsLoading(false);
@@ -57,21 +65,47 @@ const Creatures: FC = () => {
       });
   };
 
-  const openDialog = (id: string) => {};
+  const openDialog = (id: string) => setDeleteCreatureActionId(id);
+
+  const handleDelete = (id: string) => {
+    invoke('delete_creature', { id })
+      .then(() => {
+        setDeleteCreatureActionId(null);
+        loadCreatures();
+      })
+      .catch((e) => {
+        console.error(e);
+        setHasError(true);
+      });
+  };
 
   useEffect(() => {
     loadCreatures();
   }, []);
 
+  useEffect(() => {
+    setFilteredCreatures(
+      creatures.filter(
+        ({ name, challengeRating, size, creatureType: type }) =>
+          name.toLowerCase().includes(filterText.toLowerCase()) ||
+          `${challengeRating}`
+            .toLowerCase()
+            .includes(filterText.toLowerCase()) ||
+          size.toLowerCase().includes(filterText.toLowerCase()) ||
+          type.toLowerCase().includes(filterText.toLowerCase())
+      )
+    );
+  }, [filterText, creatures]);
+
   return (
     <Layout>
       {hasError && (
-        <Alert severity="error" className="mb-16">
+        <StyledAlert severity="error" className="mb-16">
           There was an error loading the creatures. Please{' '}
           <MuiLink component="button" onClick={loadCreatures}>
             try again.
           </MuiLink>
-        </Alert>
+        </StyledAlert>
       )}
       <ActionContainer>
         <DebouncedInput
@@ -101,7 +135,7 @@ const Creatures: FC = () => {
       ) : (
         <List dense>
           {filteredCreatures.map(
-            ({ id, name, type, size, challengeRating }) => (
+            ({ id, name, creatureType: type, size, challengeRating }) => (
               <Fragment key={id}>
                 <ListItemTwoSecondaryActions
                   secondaryAction={
@@ -140,7 +174,7 @@ const Creatures: FC = () => {
           )}
         </List>
       )}
-      {/* {deleteCreatureActionId != null && (
+      {deleteCreatureActionId != null && (
         <Dialog open onClose={() => setDeleteCreatureActionId(null)}>
           <DialogTitle>Confirm Delete Creature</DialogTitle>
           <DialogContent>
@@ -163,7 +197,7 @@ const Creatures: FC = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      )} */}
+      )}
     </Layout>
   );
 };

@@ -2,6 +2,7 @@ use crate::models::damage::Damage;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Action {
     id: String,
     name: String,

@@ -7,12 +7,14 @@ import Creature from 'models/creature/Creature';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { SnakeCasedPropertiesDeep } from 'type-fest';
+import { convertCreatureFormToDB } from 'utils/creatureUtils';
 
 const DefaultValues: Partial<Creature> = {
   id: undefined,
   name: '',
   size: undefined,
-  type: undefined,
+  creatureType: undefined,
   alignment: undefined,
 
   armourClass: undefined,
@@ -67,7 +69,7 @@ const CreateCreature = () => {
 
   const onSubmit = (data: Creature) => {
     setHasError(false);
-    invoke('add_creature', { creature: { name: data.name } })
+    invoke('add_creature', { creature: convertCreatureFormToDB(data) })
       .then(() => {
         router.push('/creatures');
       })

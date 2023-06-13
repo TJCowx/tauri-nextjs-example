@@ -13,7 +13,7 @@ type Creature = {
   id: string;
   name: string;
   size: CreatureSize;
-  type: CreatureType;
+  creatureType: CreatureType;
   alignment: Alignment;
 
   armourClass: number;

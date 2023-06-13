@@ -15,6 +15,8 @@ fn main() {
             connect_db,
             creature::queries::get_all_creatures,
             creature::queries::add_creature,
+            creature::queries::update_creature,
+            creature::queries::delete_creature,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -123,8 +123,8 @@ const CreatureForm: FC<Props> = ({ control, onSubmit, watch }) => {
             options={CreatureSizeSelectOptions}
           />
           <RHFSelectField
-            id="type"
-            fieldName="type"
+            id="creatureType"
+            fieldName="creatureType"
             control={control}
             label="Type"
             options={CreatureTypeSelectOptions}
