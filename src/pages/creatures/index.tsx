@@ -53,9 +53,14 @@ const Creatures: FC = () => {
 
     invoke<Creature[]>('get_all_creatures')
       .then((res) => {
-        console.log(res);
-        setCreatures(res);
-        setFilteredCreatures(res);
+        const mappedRes = res.map((creature) => ({
+          ...creature,
+          // TODO: Fix bad cast
+          // eslint-disable-next-line no-underscore-dangle
+          id: (creature as any)._id.$oid,
+        }));
+        setCreatures(mappedRes);
+        setFilteredCreatures(mappedRes);
         setIsLoading(false);
       })
       .catch((e) => {
@@ -65,9 +70,12 @@ const Creatures: FC = () => {
       });
   };
 
-  const openDialog = (id: string) => setDeleteCreatureActionId(id);
+  const openDialog = (id: string) => {
+    setDeleteCreatureActionId(id);
+  };
 
   const handleDelete = (id: string) => {
+    console.log('deleting');
     invoke('delete_creature', { id })
       .then(() => {
         setDeleteCreatureActionId(null);

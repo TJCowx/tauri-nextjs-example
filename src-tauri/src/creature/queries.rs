@@ -1,5 +1,8 @@
+use std::str::FromStr;
+
 use crate::models::creature::Creature;
 use crate::mongo::*;
+use bson::oid::ObjectId;
 use futures::StreamExt;
 use mongodb::bson::doc;
 
@@ -120,21 +123,24 @@ pub async fn update_creature(creature: Creature) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub async fn delete_creature(id: &str) -> Result<(), String> {
+pub async fn delete_creature(id: String) -> Result<(), String> {
+    println!("[server] Deleting id {}", &id);
+
     let client = get_connection();
 
     let collection = client
         .database("5e-dm-tools")
         .collection::<Creature>("creatures");
 
-    println!("[server] Removing creature {}", id);
-
     collection
-        .delete_one(doc! { "_id": id }, None)
+        .delete_one(
+            doc! {
+                "_id": ObjectId::from_str(&id).unwrap()
+            },
+            None,
+        )
         .await
         .map_err(|e| e.to_string())?;
-
-    println!("[server] Creature {} successfully removed!", id);
 
     push_connection(client);
 
