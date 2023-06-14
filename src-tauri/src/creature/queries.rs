@@ -47,6 +47,25 @@ pub async fn get_all_creatures() -> Result<Vec<Creature>, String> {
 }
 
 #[tauri::command]
+pub async fn get_creature_by_id(id: String) -> Result<Creature, String> {
+    let client = get_connection();
+
+    let collection = client
+        .database("5e-dm-tools")
+        .collection::<Creature>("creatures");
+
+    let creature = collection
+        .find_one(doc! { "_id": ObjectId::from_str(&id).unwrap() }, None)
+        .await
+        .map_err(|e| e.to_string())?
+        .unwrap();
+
+    push_connection(client);
+
+    Ok(creature)
+}
+
+#[tauri::command]
 pub async fn add_creature(creature: Creature) -> Result<(), String> {
     println!("[server] Creature starting");
     let client = get_connection();
@@ -85,17 +104,17 @@ pub async fn add_creature(creature: Creature) -> Result<(), String> {
 
 #[tauri::command]
 pub async fn update_creature(creature: Creature) -> Result<(), String> {
+    println!("[server] Updating creature {}", &creature.name);
+
     let client = get_connection();
 
     let collection = client
         .database("5e-dm-tools")
         .collection::<Creature>("creatures");
 
-    println!("[server] Updating creature {}", creature.name);
-
     // If creature doesn't exist, return an error
     if collection
-        .find_one(doc! { "_id": creature.id.clone() }, None)
+        .find_one(doc! { "_id": creature.id }, None)
         .await
         .map_err(|e| e.to_string())?
         .is_none()
@@ -108,7 +127,7 @@ pub async fn update_creature(creature: Creature) -> Result<(), String> {
     // Update the creature
     collection
         .update_one(
-            doc! { "_id": creature.id.clone() },
+            doc! { "_id": &creature.id },
             doc! { "$set": serialized_creature },
             None,
         )

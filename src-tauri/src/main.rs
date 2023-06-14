@@ -14,6 +14,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             connect_db,
             creature::queries::get_all_creatures,
+            creature::queries::get_creature_by_id,
             creature::queries::add_creature,
             creature::queries::update_creature,
             creature::queries::delete_creature,
